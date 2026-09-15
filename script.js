@@ -22,6 +22,30 @@ let favPetButton =   document.getElementById("favorite-pet")
 let adoptPetButton = document.getElementById("adopt-pet")
 let resetButton =    document.getElementById("reset-card")
 
-function eee() {
-    document.getElementById("nextPetButton").click()
+// Would LOVE to make this scalable, but we haven't done anything with arrays and such lol
+let isMochi = true
+
+
+nextPetButton.addEventListener("click", changeDisplayedPet)
+function changeDisplayedPet() {
+    if (isMochi) {
+        changeToPepper() // I don't like how Mochi and Pepper are switched bu whatevs
+    }
+    else {
+        changeToMochi()
+    }
+}
+
+function changeToMochi() {
+    petImage.src = mochiImage
+    petName.innerText = "Mochi"
+    petDescription.innerText = "A curious cat who loves sunny windows and quiet afternoons."
+    isMochi = true
+}
+
+function changeToPepper() {
+    petImage.src = pepperImage
+    petName.innerText = "Pepper"
+    petDescription.innerText = "A loving dog who sniffs dirt and eats tainted souls from the dark pits of the aether."
+    isMochi = false
 }
