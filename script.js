@@ -9,8 +9,8 @@
 // - Test one interaction at a time in the browser and check the console for errors.
 
 // Pet images
-const mochiImage =  "images/mochi.svg"
-const pepperImage = "images/pepper.svg"
+const mochiImage =     "images/mochi.svg"
+const pepperImage =    "images/pepper.svg"
 // Pet elements
 let   petImage =       document.getElementById("pet-image")
 let   petName =        document.getElementById("pet-name")
@@ -28,6 +28,7 @@ let isMochi = true // Would LOVE to make this scalable, but we haven't done anyt
 let isMochiFavorited = "false"
 let isPepperFavorited = "false"
 
+
 // Next button
 nextPetButton.addEventListener("click", showAnotherPet)
 function showAnotherPet() {
@@ -44,7 +45,6 @@ function changeToMochi() {
     petImage.alt = "Mochi, a friendly cat"
     petName.textContent = "Mochi" // Ooo! textContent is more thorough and better standard
     petDescription.textContent = "A curious cat who loves sunny windows and quiet afternoons."
-    updateFavorited()
     isMochi = true
 }
 
@@ -53,41 +53,45 @@ function changeToPepper() {
     petImage.alt = "Pepper, a horrifying dog"
     petName.textContent = "Pepper"
     petDescription.textContent = "A loving dog who sniffs dirt and eats tainted souls from the dark pits of the aether."
-    updateFavorited()
+    
     isMochi = false
 }
 
-function updateFavorited() {
-    if (isMochi) {
-        favBtnAria = isMochiFavorited 
-    }
-    else {
-        favBtnAria = isPepperFavorited 
-    }
-}
-
 // Favorite button
+favPetButton.addEventListener("click", changeFavoritedState)
 
-
-
-favPetButton.addEventListener("click", toggleFavorite)
-function toggleFavorite() {
+const favoritedText =   "★ Favorited"
+const unfavoritedText = "☆ Favorite"
+function changeFavoritedState() {
     if (isMochi) {
         if (isMochiFavorited == "true") {
+            changeFavoritedButton(true)
             isMochiFavorited = "false"
         }
         else {
+            changeFavoritedButton(false)
             isMochiFavorited = "true"
         }
-        updateFavorited()
     }
     else {
         if (isPepperFavorited == "true") {
+            changeFavoritedButton(true)
             isPepperFavorited = "false"
         }
         else {
+            changeFavoritedButton(false)
             isPepperFavorited = "true"
         }
-        updateFavorited()
+    }
+}
+
+function changeFavoritedButton(favorited) {
+    if (favorited) {
+        favPetButton.setAttribute("aria-pressed", "true")
+        favPetButton.textContent = favoritedText
+    }
+    else {
+        favPetButton.setAttribute("aria-pressed", "false")
+        favPetButton.textContent = unfavoritedText
     }
 }
