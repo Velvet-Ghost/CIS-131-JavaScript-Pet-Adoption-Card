@@ -17,81 +17,61 @@ let   petName =        document.getElementById("pet-name")
 let   petDescription = document.getElementById("pet-description")
 const adoptionStatus = document.getElementById("adoption-status")
 // Button elements
-const nextPetButton =  document.getElementById("next-pet")
-const favPetButton =   document.getElementById("favorite-pet")
-const pressedState =   favPetButton.getAttribute("aria-pressed")
-const adoptPetButton = document.getElementById("adopt-pet")
+const nextButton =     document.getElementById("next-pet")
+const favoriteButton = document.getElementById("favorite-pet")
+let   pressedState =   favoriteButton.getAttribute("aria-pressed")
+const adoptButton =    document.getElementById("adopt-pet")
 const resetButton =    document.getElementById("reset-card")
 
-
-let isMochi = true // Would LOVE to make this scalable, but we haven't done anything with arrays and such lol
-let isMochiFavorited = "false"
-let isPepperFavorited = "false"
-
-
-// Next button
-nextPetButton.addEventListener("click", showAnotherPet)
+nextButton.addEventListener("click", showAnotherPet)
+let pressed = false
 function showAnotherPet() {
-    if (isMochi) {
-        changeToPepper() // I don't like how Mochi and Pepper are switched bu whatevs
-    }
-    else {
-        changeToMochi()
-    }
-}
-
-function changeToMochi() {
-    petImage.src = mochiImage
-    petImage.alt = "Mochi, a friendly cat"
-    petName.textContent = "Mochi" // Ooo! textContent is more thorough and better standard
-    petDescription.textContent = "A curious cat who loves sunny windows and quiet afternoons."
-    isMochi = true
-}
-
-function changeToPepper() {
     petImage.src = pepperImage
     petImage.alt = "Pepper, a horrifying dog"
     petName.textContent = "Pepper"
     petDescription.textContent = "A loving dog who sniffs dirt and eats tainted souls from the dark pits of the aether."
     
-    isMochi = false
+    if (pressed == false) {
+        favoriteButton.setAttribute("aria-pressed", "false")
+        favoriteButton.textContent = "☆ Favorite"
+
+        adoptionStatus.textContent = "Adopt me"
+        adoptButton.disabled = false
+    }
+    pressed = true
 }
 
-// Favorite button
-favPetButton.addEventListener("click", changeFavoritedState)
-
-const favoritedText =   "★ Favorited"
-const unfavoritedText = "☆ Favorite"
-function changeFavoritedState() {
-    if (isMochi) {
-        if (isMochiFavorited == "true") {
-            changeFavoritedButton(true)
-            isMochiFavorited = "false"
-        }
-        else {
-            changeFavoritedButton(false)
-            isMochiFavorited = "true"
-        }
+favoriteButton.addEventListener("click", toggleFavorite)
+function toggleFavorite() {
+    pressedState = favoriteButton.getAttribute("aria-pressed")
+    if (pressedState === "true") {
+        favoriteButton.setAttribute("aria-pressed", "false")
+        favoriteButton.textContent = "☆ Favorite"
     }
-    else {
-        if (isPepperFavorited == "true") {
-            changeFavoritedButton(true)
-            isPepperFavorited = "false"
-        }
-        else {
-            changeFavoritedButton(false)
-            isPepperFavorited = "true"
-        }
+    else if (pressedState === "false") {
+        favoriteButton.setAttribute("aria-pressed", "true")
+        favoriteButton.textContent = "★ Favorited"
     }
 }
 
-function changeFavoritedButton(favorited) {
-    if (favorited) {
-        favPetButton.setAttribute("aria-pressed", "true")
-        favPetButton.textContent = favoritedText
-    }
-    else {
-        favPetButton.setAttribute("aria-pressed", "false")
-        favPetButton.textContent = unfavoritedText
-    }
+adoptButton.addEventListener("click", adoptPet)
+function adoptPet() {
+    adoptionStatus.textContent = "Adoption Pending"
+    adoptButton.disabled = true
 }
+
+resetButton.addEventListener("click", resetCard)
+function resetCard() {
+    petImage.src = mochiImage
+    petImage.alt = "Mochi, a friendly cat"
+    petName.textContent = "Mochi"
+    petDescription.textContent = "A curious cat who loves sunny windows and quiet afternoons."
+
+    favoriteButton.setAttribute("aria-pressed", "false")
+    favoriteButton.textContent = "☆ Favorite"
+
+    adoptionStatus.textContent = "Adopt me"
+    adoptButton.disabled = false
+    pressed = false
+}
+
